@@ -3,34 +3,8 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from datetime import datetime
 
-def get_views(div):
-  try:
-    viewcount = div.find('span', class_="views")
-    return viewcount.text.replace('views', '').replace(',','').strip()
-  except AttributeError:
-    return '0'
 
-def get_date(div):
-  try:
-    getdate = div.find('time', class_="date")
-    return getdate
-  except AttributeError:
-    return 'NULL'
-
-def get_author(div):
-  try:  
-    author = div.find('div', class_="author")
-    return author.text.strip()
-  except AttributeError:
-    return "NULL"
-
-def get_link(div):
-  try:
-    return div.find("a", class_="linkImage").get("href")
-  except:
-    return 'NULL'
-
-class CrackedScrape:
+class CrackedScraper(CrakedScrapeProject.scrape.AbstractScraper):
 
   def __init__(self):
     self.pages = []
@@ -52,6 +26,34 @@ class CrackedScrape:
 
     for ref in subset_lks:
       self.pages.append(ref.get("href"))
+
+  def __get_views(div):
+    try:
+      viewcount = div.find('span', class_="views")
+      return viewcount.text.replace('views', '').replace(',','').strip()
+    except AttributeError:
+      return '0'
+
+  def __get_date(div):
+    try:
+      getdate = div.find('time', class_="date")
+      return getdate
+    except AttributeError:
+      return 'NULL'
+
+  def __get_author(div):
+    try:  
+      author = div.find('div', class_="author")
+      return author.text.strip()
+    except AttributeError:
+      return "NULL"
+
+  def __get_link(div):
+    try:
+      return div.find("a", class_="linkImage").get("href")
+    except:
+      return 'NULL'
+
   
   def get_list_entries(self):
     self.entries = []
@@ -110,52 +112,3 @@ class CrackedScrape:
   def write_data(self, out_path):
      self.df.to_csv(out_path)
 
-
-class ArticleScrape:
-
-  def __init__(self, scrape_obj):
-    self.scrape = scrape_obj
-    self.articles = {}
-    self.article_texts = {}
-    self.list_entries = {}
-
-  def get_article(self, title):
-    temp_ls = []
-    temp_link = self.scrape.data[title][3]
-    article = BeautifulSoup(urlopen(temp_link).read())
-    article = BeautifulSoup(article.encode('utf-8'))
-    pagination = article.find_all('span', class_='paginationNumber')
-    temp_ls.append(article)
-    if len(pagination) != 0:
-      max_page = pagination[1].text
-      for pg in range(0, int(max_page)):
-        try:
-          nextUrl = article.find('a', class_ = 'next').get('href')
-          article = BeautifulSoup(urlopen(nextUrl).read())
-          temp_ls.append(article)
-        except:
-          pass
-    self.articles[title] = temp_ls
-
-  def get_lists(self, title):
-    article_raw = self.articles[title]
-    temp_ls = []
-    for pg in article_raw:
-      for sh in pg.find_all("h2", class_ = "subheading"):
-        temp_ls.append(sh.text)
-    self.list_entries[title] = temp_ls
-
-
-  def get_text(self, title):
-    article_raw = self.articles[title]
-    temp_ls = []
-    for pg in article_raw:
-      for p in pg.find_all('p'):
-        temp_ls.append(p.text)
-    self.article_texts[title] = temp_ls
-  
-  def write_data(self, title, outpath):
-    article = self.article_texts[title]
-    article = ' '.join(article)
-    with open(outpath, 'w') as f:
-      f.write(article)
