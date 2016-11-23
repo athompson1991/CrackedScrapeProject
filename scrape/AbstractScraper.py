@@ -12,6 +12,3 @@ class AbstractScraper:
     soup = BeautifulSoup(text)
     outDictionary = {"html": html, "text": text, "soup": soup}
     self.dataDictionary = outDictionary
-
-
-  

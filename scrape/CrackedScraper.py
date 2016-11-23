@@ -6,15 +6,26 @@ from CrackedScrapeProject.scrape.AbstractScraper import AbstractScraper as absSc
 
 
 class CrackedScraper(absScrape):
-  def __init__(self):
-    absScrape.__init__(self, "https://www.cracked.com/funny-articles.html")
+  def __init__(self, year, month):
+    self.month = month
+    self.year = year
+    base_url = "https://www.cracked.com/funny-articles.html"
+    new_url = base_url + "?date_year=" + str(year) + "&date_month=" + str(month)
+    absScrape.__init__(self, new_url)
+
+  def countPages(self):
+    soup = self.dataDictionary["soup"]
+    temp_val = soup.find("li", class_="paginationLastItem").text
+    self.pageCount = int(temp_val)
+    
+
 
   # def get_pages(self, n = -1):
   #   self.pages = []
   #   html = urlopen('http://www.cracked.com/funny-articles.html')
   #   text = html.read()
   #   mainSoup = BeautifulSoup(text)
-  #   yearlist = mainSoup.find("ul", class_="accordionContent")P
+  #   yearlist = mainSoup.find("ul", class_="accordionContent")
   #   all_links = yearlist.find_all("a", {"class": "month"}) 
   #   if n == -1:
   #     subset_lks = all_links
