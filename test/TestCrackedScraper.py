@@ -26,7 +26,7 @@ class TestCrackedScraperMethods(unittest.TestCase):
 
   def test_getListEntries(self):
     self.scraper.getListEntries()
-    self.assertEqual(self.scraper.listEntries, 15)
+    self.assertEqual(len(self.scraper.listEntries), 15)
     self.assertTrue(isinstance(self.scraper.listEntries, dict))
 
 if __name__ == '__main__':
