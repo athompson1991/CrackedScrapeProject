@@ -2,23 +2,43 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import pandas as pd
 from datetime import datetime
-from CrackedScrapeProject.scrape.AbstractScraper import AbstractScraper as absScrape
+from CrackedScrapeProject.scrape.AbstractScraper import AbstractScraper
 
 
-class CrackedScraper(absScrape):
+class CrackedScraper(AbstractScraper):
   def __init__(self, year, month):
+
+    self.currentPage = None
+    self.pageCount = None
+    self.listEntries = None
+
     self.month = month
     self.year = year
-    base_url = "https://www.cracked.com/funny-articles.html"
-    new_url = base_url + "?date_year=" + str(year) + "&date_month=" + str(month)
-    absScrape.__init__(self, new_url)
+    self.__base_url = "http://www.cracked.com/funny-articles"
+
+    new_url = self.__base_url + ".html?date_year=" + str(year) + "&date_month=" + str(month)
+    AbstractScraper.__init__(self, new_url)
 
   def countPages(self):
     soup = self.dataDictionary["soup"]
     temp_val = soup.find("li", class_="paginationLastItem").text
     self.pageCount = int(temp_val)
-    
 
+  def changePage(self, pageNumber):
+    self.currentPage = pageNumber
+    self.url = self.__base_url + "_p" + str(pageNumber) + ".html?date_year=" + str(self.year) + "&date_month=" + str(self.month)
+    self.makeDataDictionary()
+
+  def parseEntries(self):
+    for entry in self.listEntries:
+       for div in entry:
+         temp_title = div.find('h3', class_ = "title").text.strip()
+         temp_title = temp_title.replace('\t', ' ')
+
+  def getListEntries(self):
+    body = self.dataDictionary["soup"].find("div", class_="body")
+    entries = body.find_all('div', {"class":"listEntry"})
+    self.listEntries = entries
 
   # def get_pages(self, n = -1):
   #   self.pages = []
@@ -116,3 +136,4 @@ class CrackedScraper(absScrape):
   #       ,'date': [self.data[self.titles[t]][2] for t in range(len(self.titles))]
   #       ,'link': [self.data[self.titles[t]][3] for t in range(len(self.titles))]
 	# })
+
