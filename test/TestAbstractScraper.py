@@ -1,7 +1,7 @@
 import unittest
 from http.client import HTTPResponse
-from CrackedScrapeProject.scrape.AbstractScraper import AbstractScraper
 from bs4 import BeautifulSoup
+from CrackedScrapeProject.scrape.AbstractScraper import AbstractScraper
 
 
 class TestAbstractScraperMethods(unittest.TestCase):

@@ -25,19 +25,8 @@ class CrackedScraper(AbstractScraper):
 
     def changePage(self, pageNumber):
         self.currentPage = pageNumber
-        self.url = self.__base_url + "_p" + str(pageNumber) + ".html?date_year=" + str(
-            self.year) + "&date_month=" + str(self.month)
+        self.url = self.__base_url + "_p" + str(pageNumber) + ".html?date_year=" + str(self.year) + "&date_month=" + str(self.month)
         self.makeDataDictionary()
-
-    def getTitle(self, entry):
-        subDiv = entry.find("div", class_="meta")
-        title = subDiv.find("h3", class_="title").text.strip()
-        title = title.replace("\t", " ")
-        return title
-
-    def parseEntries(self, entryList):
-        titles = [self.getTitle(entry) for entry in entryList]
-        return dict(zip(titles, entryList))
 
     def getListEntries(self):
         body = self.dataDictionary["soup"].find("div", class_="body")

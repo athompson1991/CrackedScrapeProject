@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 
 
 class AbstractScraper:
+
     def __init__(self, url):
         self.url = url
         self.dataDictionary = None
