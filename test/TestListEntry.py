@@ -5,7 +5,7 @@ from CrackedScrapeProject.scrape.ListEntry import ListEntry
 class TestListEntryMethods(unittest.TestCase):
 
     def setUp(self):
-        self.listEntry = '\
+        self.rawText = '\
           <div class=listEntry>\
             <a class=linkImage href="http://www.cracked.com/article_23342_the-depressing-origins-6-cheerful-christmas-traditions.html">\
               <img data-img="http://s3.crackedcdn.com/phpimages/article/7/1/2/488712_v1.jpg" class=thumb />\
@@ -15,7 +15,7 @@ class TestListEntryMethods(unittest.TestCase):
                 <a href="http://www.cracked.com/article_23342_the-depressing-origins-6-cheerful-christmas-traditions.html"> 6 Cheerful Christmas Traditions With Shockingly Dark Origins  </a>  \
               </h3>\
               <div class=author>\
-                By<a href="http://www.cracked.com/members/Bostonpat/">Pat Carnell</a>\
+                By <a href="http://www.cracked.com/members/Bostonpat/">Pat Carnell</a>\
               </div>\
               <div class=timeViews>\
                 <span class=views>721,839 views</span> |\
@@ -24,7 +24,7 @@ class TestListEntryMethods(unittest.TestCase):
             </div>\
             <div class=clearfix></div>\
           </div>'
-        self.entry = ListEntry(self.listEntry)
+        self.entry = ListEntry(BeautifulSoup(self.rawText,"lxml"))
 
 
     def test_getTitle(self):
