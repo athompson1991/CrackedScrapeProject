@@ -13,7 +13,7 @@ class TestAbstractScraperMethods(unittest.TestCase):
     def test_dataDictionaryContents(self):
         self.assertTrue(isinstance(self.scraper.dataDictionary, dict))
         self.assertTrue(isinstance(self.scraper.dataDictionary["html"], HTTPResponse))
-        self.assertTrue(isinstance(self.scraper.dataDictionary["text"], bytes))
+        self.assertTrue(isinstance(self.scraper.dataDictionary["text"], str))
         self.assertTrue(isinstance(self.scraper.dataDictionary["soup"], BeautifulSoup))
         self.assertSetEqual(set(self.scraper.dataDictionary.keys()), set(["text", "soup", "html"]))
 

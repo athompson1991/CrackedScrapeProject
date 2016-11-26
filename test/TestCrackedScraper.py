@@ -6,7 +6,8 @@ from CrackedScrapeProject.scrape.ListEntry import ListEntry
 class TestCrackedScraperMethods(unittest.TestCase):
 
     def setUp(self):
-        self.scraper = CrackedScraper(2016, 10)
+        self.scraper = CrackedScraper()
+        self.scraper.changeDate(2016, 10)
         self.scraper.makeDataDictionary()
         self.scraper.countPages()
 

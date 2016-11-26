@@ -2,6 +2,7 @@ import unittest
 from bs4 import BeautifulSoup
 from CrackedScrapeProject.scrape.ListEntry import ListEntry
 
+
 class TestListEntryMethods(unittest.TestCase):
 
     def setUp(self):
