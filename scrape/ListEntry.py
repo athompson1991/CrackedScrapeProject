@@ -1,6 +1,8 @@
 from datetime import datetime
 
+
 class ListEntry:
+
     def __init__(self, entrySoup):
         self.entrySoup = entrySoup
         self.title = None
@@ -8,6 +10,7 @@ class ListEntry:
         self.author = None
         self.views = None
         self.date = None
+        self.mainDictionary = None
 
     def getTitle(self):
         subDiv = self.entrySoup.find("div", class_="meta")
@@ -44,3 +47,7 @@ class ListEntry:
             self.date = datetime.strptime(self.date, '%B %d, %Y')
         except AttributeError:
             self.date = datetime.datetime(1970, 0, 0, 0, 0, 0, 0)
+
+    def makeDictionary(self):
+        self.mainDictionary = {"link": self.link, "author": self.author, "views": self.views, "date": self.date}
+

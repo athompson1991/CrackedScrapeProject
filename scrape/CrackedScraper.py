@@ -3,13 +3,14 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from datetime import datetime
 from CrackedScrapeProject.scrape.AbstractScraper import AbstractScraper
+from CrackedScrapeProject.scrape.ListEntry import ListEntry
 
 
 class CrackedScraper(AbstractScraper):
     def __init__(self, year, month):
         self.currentPage = None
         self.pageCount = None
-        self.listEntries = None
+        self.listEntries = {}
 
         self.month = month
         self.year = year
@@ -30,8 +31,22 @@ class CrackedScraper(AbstractScraper):
 
     def getListEntries(self):
         body = self.dataDictionary["soup"].find("div", class_="body")
-        entries = body.find_all('div', {"class": "listEntry"})
-        self.listEntries = self.parseEntries(entries)
+        entriesSoup = body.find_all('div', {"class": "listEntry"})
+        for soup in entriesSoup:
+            entry = ListEntry(soup)
+            entry.getTitle()
+            entry.getLink()
+            entry.getAuthor()
+            entry.getViews()
+            entry.getDate()
+            entry.makeDictionary()
+            self.listEntries[entry.title] = entry.mainDictionary
+
+    def printTitles(self):
+        for entry in self.listEntries:
+            print(entry.encode("utf-8"))
+
+
 
         # def get_pages(self, n = -1):
         #   self.pages = []

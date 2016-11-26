@@ -5,6 +5,7 @@ from CrackedScrapeProject.scrape.AbstractScraper import AbstractScraper
 
 
 class TestAbstractScraperMethods(unittest.TestCase):
+
     def setUp(self):
         self.scraper = AbstractScraper("https://docs.python.org/2/library/unittest.html")
         self.scraper.makeDataDictionary()

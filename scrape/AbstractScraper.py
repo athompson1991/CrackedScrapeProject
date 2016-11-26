@@ -11,5 +11,5 @@ class AbstractScraper:
     def makeDataDictionary(self):
         html = urlopen(self.url)
         text = html.read()
-        soup = BeautifulSoup(text, "lxml")
+        soup = BeautifulSoup(text)
         self.dataDictionary = {"html": html, "text": text, "soup": soup}

@@ -25,27 +25,32 @@ class TestListEntryMethods(unittest.TestCase):
             <div class=clearfix></div>\
           </div>'
         self.entry = ListEntry(BeautifulSoup(self.rawText,"lxml"))
+        self.entry.getTitle()
+        self.entry.getLink()
+        self.entry.getAuthor()
+        self.entry.getViews()
+        self.entry.getDate()
+        self.entry.makeDictionary()
 
 
     def test_getTitle(self):
-        self.entry.getTitle()
         self.assertEquals(self.entry.title, "6 Cheerful Christmas Traditions With Shockingly Dark Origins")
 
     def test_getLink(self):
-        self.entry.getLink()
         self.assertEquals(self.entry.link, "http://www.cracked.com/article_23342_the-depressing-origins-6-cheerful-christmas-traditions.html")
 
     def test_getAuthor(self):
-        self.entry.getAuthor()
         self.assertEquals(self.entry.author, "Pat Carnell")
 
     def test_getViews(self):
-        self.entry.getViews()
         self.assertEquals(self.entry.views, 721839)
 
     def test_getDate(self):
-        self.entry.getDate()
         self.assertEquals(self.entry.date.strftime("%Y-%m-%d"), "2015-12-20")
+
+    def test_makeDictionary(self):
+        self.assertTrue(self.entry.mainDictionary["views"], 721839)
+
 
 
 if __name__ == '__main__':
