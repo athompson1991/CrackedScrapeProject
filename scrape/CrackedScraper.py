@@ -1,7 +1,4 @@
-from urllib.request import urlopen
-from bs4 import BeautifulSoup
 import pandas as pd
-from datetime import datetime
 from CrackedScrapeProject.scrape.AbstractScraper import AbstractScraper
 from CrackedScrapeProject.scrape.ListEntry import ListEntry
 
@@ -14,6 +11,7 @@ class CrackedScraper(AbstractScraper):
         self.pageCount = None
         self.currentPage = None
         self.listEntries = {}
+        self.listEntryDataFrame = None
 
         self.__base_url = "http://www.cracked.com/funny-articles"
 
@@ -58,13 +56,14 @@ class CrackedScraper(AbstractScraper):
             self.changePage(i)
             self.getListEntries()
 
+    def getYear(self, yearNumber):
+        for m in range(1, 12):
+            self.changeDate(yearNumber, m)
+            self.countPages()
+            self.getAllPages()
 
-        # def make_df(self):
-        #    self.df = pd.DataFrame({
-        #        'title': self.titles
-        #       ,'views': [self.data[self.titles[t]][0] for t in range(len(self.titles))]
-        #       ,'author': [self.data[self.titles[t]][1] for t in range(len(self.titles))]
-        #       ,'date': [self.data[self.titles[t]][2] for t in range(len(self.titles))]
-        #       ,'link': [self.data[self.titles[t]][3] for t in range(len(self.titles))]
+    def makeDataFrame(self):
+        self.listEntryDataFrame = pd.DataFrame.from_dict(self.listEntries).transpose()
 
-    # })
+
+
