@@ -64,6 +64,7 @@ class CrackedScraper(AbstractScraper):
 
     def makeDataFrame(self):
         self.listEntryDataFrame = pd.DataFrame.from_dict(self.listEntries).transpose()
+        self.listEntryDataFrame = self.listEntryDataFrame.sort_values(["date"], ascending=True)
 
 
 
