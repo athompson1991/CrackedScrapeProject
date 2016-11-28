@@ -11,8 +11,8 @@ class ArticleScraper(AbstractScraper):
         AbstractScraper.__init__(self, link)
 
     def getArticle(self):
-        self.article = self.dataDictionary["soup"].find_all("div", class_="article")
-        self.article = BeautifulSoup("".join(self.article))
+        self.article = self.dataDictionary["soup"].find_all("article", class_="content")
+        self.article = BeautifulSoup("".join([str(art.encode("utf-8")) for art in self.article]))
 
     def writeArticle(self, path):
         with open(path, "w") as outfile:
