@@ -13,3 +13,7 @@ class AbstractScraper:
         text = html.read().decode("utf-8")
         soup = BeautifulSoup(text, "lxml")
         self.dataDictionary = {"html": html, "text": text, "soup": soup}
+
+    def writeSoup(self, path):
+        with open(path, "w") as outfile:
+            outfile.write(self.dataDictionary["soup"].prettify())

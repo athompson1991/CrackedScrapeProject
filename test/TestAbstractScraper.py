@@ -2,6 +2,7 @@ import unittest
 from http.client import HTTPResponse
 from bs4 import BeautifulSoup
 from CrackedScrapeProject.scrape.AbstractScraper import AbstractScraper
+from io import StringIO
 
 
 class TestAbstractScraperMethods(unittest.TestCase):
@@ -17,6 +18,11 @@ class TestAbstractScraperMethods(unittest.TestCase):
         self.assertTrue(isinstance(self.scraper.dataDictionary["soup"], BeautifulSoup))
         self.assertSetEqual(set(self.scraper.dataDictionary.keys()), set(["text", "soup", "html"]))
 
+    def test_writeSoup(self):
+        filePath = "C:/users/athompson/desktop/testFile.html"
+        self.scraper.writeSoup(filePath)
+        self.writtenData = open(filePath, "r").read()
+        self.assertEqual(self.writtenData, self.scraper.dataDictionary["soup"].prettify())
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(TestAbstractScraperMethods)
