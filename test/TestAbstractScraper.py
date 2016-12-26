@@ -19,7 +19,7 @@ class TestAbstractScraperMethods(unittest.TestCase):
         self.assertSetEqual(set(self.scraper.dataDictionary.keys()), set(["text", "soup", "html"]))
 
     def test_writeSoup(self):
-        filePath = "C:/users/athompson/desktop/testFile.html"
+        filePath = "C:/users/alex/testFile.html"
         self.scraper.writeSoup(filePath)
         self.writtenData = open(filePath, "r").read()
         self.assertEqual(self.writtenData, self.scraper.dataDictionary["soup"].prettify())
