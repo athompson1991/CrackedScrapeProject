@@ -2,7 +2,8 @@ import unittest
 from CrackedScrapeProject.scrape.ArticleScraper import ArticleScraper
 from bs4 import BeautifulSoup
 
-firstEntry = "Stanley Kubrick is one of the most punishingly difficult directors to work with. \
+firstEntry = "\
+Stanley Kubrick is one of the most punishingly difficult directors to work with. \
 Legend says that during the filming of The Shining, he made Shelley Duvall repeat the same scene 127 times, \
 which is ridiculous. The movie's assistant editor claims it was a mere 35-45 takes -- basically a cakewalk! \
 On the other hand, there was that time when Kubrick broke Tom Cruise's already wobbly brain on the set of \
@@ -44,7 +45,8 @@ class TestArticleScraperMethods(unittest.TestCase):
         self.assertEqual(self.scraper.intro, 'Sometimes, it\'s the smallest details that really make the movie. Then again, those same seemingly-insignificant scenes can also be such an immense pain in the balls that even the most hardened Hollywood hotshot would scream "fuck it, we\'ll do a car chase instead!" Or so you\'d think ...')
 
     def test_getListEntry(self):
-        self.scraper.getEntry(1)
+        for article in range(1, 6):
+            self.scraper.getEntry(article)
         self.assertEqual(self.scraper.entries[1], firstEntry)
 
 
