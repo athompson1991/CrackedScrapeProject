@@ -29,6 +29,10 @@ class TestArticleScraperMethods(unittest.TestCase):
         self.assertEqual("George Lucas Rebuilt A Whole Set From Return Of The Jedi 14 Years Later For A Few Seconds Of Extra Footage", self.scraper.articleSubheadings[5])
         self.assertEqual(6, len(self.scraper.articleSubheadings))
 
+    def test_getIntro(self):
+        self.scraper.getIntro()
+        self.assertEqual(self.scraper.intro, 'Sometimes, it\'s the smallest details that really make the movie. Then again, those same seemingly-insignificant scenes can also be such an immense pain in the balls that even the most hardened Hollywood hotshot would scream "fuck it, we\'ll do a car chase instead!" Or so you\'d think ...')
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(TestArticleScraperMethods)

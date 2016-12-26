@@ -8,6 +8,7 @@ class ArticleScraper(AbstractScraper):
         self.pageCount = None
         self.article = None
         self.articleSubheadings = None
+        self.intro = None
 
         AbstractScraper.__init__(self, link)
 
@@ -25,16 +26,29 @@ class ArticleScraper(AbstractScraper):
             div = subHeading.contents[0]
             tempStr = ""
             for divPiece in div.contents:
-                className = str(type(divPiece))
-                if(className == "<class 'bs4.element.NavigableString'>"):
-                    tempStr = tempStr + str(divPiece)
-                elif divPiece.get("class") == None:
-                    tempStr = tempStr + divPiece.text
-                elif divPiece.get("class")[0] != "num-wrap":
-                    tempStr = tempStr + divPiece.text
+                tempStr = tempStr + self.__checkDivPiece(divPiece)
             subheadingList.append(tempStr)
-
         self.articleSubheadings = subheadingList
+
+    def getIntro(self):
+        self.intro = self.article.find("div", {"class" : "intro"}).text
+        self.intro = self.intro.replace("\\n", "")
+        self.intro = self.intro.replace("\\'", "'")
+
+
+    def __checkDivPiece(self, divPiece):
+        tempStr = ""
+        className = str(type(divPiece))
+        if(className == "<class 'bs4.element.NavigableString'>"):
+            tempStr = tempStr + str(divPiece)
+        elif divPiece.get("class") == None:
+            tempStr = tempStr + divPiece.text
+        elif divPiece.get("class")[0] != "num-wrap":
+            tempStr = tempStr + divPiece.text
+        return tempStr
+
+
+
 #
 #   def __init__(self, scrape_obj):
 #     self.scrape = scrape_obj
