@@ -9,6 +9,7 @@ class ArticleScraper(AbstractScraper):
         self.article = None
         self.articleSubheadings = None
         self.intro = None
+        self.entries = {}
 
         AbstractScraper.__init__(self, link)
 
@@ -32,9 +33,25 @@ class ArticleScraper(AbstractScraper):
 
     def getIntro(self):
         self.intro = self.article.find("div", {"class" : "intro"}).text
-        self.intro = self.intro.replace("\\n", "")
-        self.intro = self.intro.replace("\\'", "'")
+        self.intro = self.__cleanText(self.intro)
 
+    def getEntry(self, entryNumber):
+        textList = []
+        divClassName = "entry-" + str(entryNumber)
+        entrySoup = self.article.find("div", {"class" : divClassName})
+        paragraphs = entrySoup.find_all("p")
+        for p in paragraphs:
+            if p.get("align") == None:
+                textList.append(p.text)
+        fullText = " ".join(textList)
+        fullText = self.__cleanText(fullText)
+        self.entries[entryNumber] = fullText
+
+    def __cleanText(self, text):
+        text = text.replace("\\n", "")
+        text = text.replace("\\'", "'")
+        text = text.strip()
+        return text
 
     def __checkDivPiece(self, divPiece):
         tempStr = ""

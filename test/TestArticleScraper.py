@@ -2,6 +2,16 @@ import unittest
 from CrackedScrapeProject.scrape.ArticleScraper import ArticleScraper
 from bs4 import BeautifulSoup
 
+firstEntry = "Stanley Kubrick is one of the most punishingly difficult directors to work with. \
+Legend says that during the filming of The Shining, he made Shelley Duvall repeat the same scene 127 times, \
+which is ridiculous. The movie's assistant editor claims it was a mere 35-45 takes -- basically a cakewalk! \
+On the other hand, there was that time when Kubrick broke Tom Cruise's already wobbly brain on the set of \
+Eyes Wide Shut: He made the actor walk through a door repeatedly, for a total of 95 times. It was such an \
+insignificant scene that no one is 100 percent sure when, exactly, it takes place in the movie. But for \
+whatever reason, Kubrick needed Cruise to repeat it nearly 100 times. That's a level of perfectionism that \
+crosses the line into insanity. Or perhaps we're blaming the wrong person: Maybe Tom Cruise just opens a \
+door like a total asshole."
+
 class TestArticleScraperMethods(unittest.TestCase):
 
     def setUp(self):
@@ -32,6 +42,10 @@ class TestArticleScraperMethods(unittest.TestCase):
     def test_getIntro(self):
         self.scraper.getIntro()
         self.assertEqual(self.scraper.intro, 'Sometimes, it\'s the smallest details that really make the movie. Then again, those same seemingly-insignificant scenes can also be such an immense pain in the balls that even the most hardened Hollywood hotshot would scream "fuck it, we\'ll do a car chase instead!" Or so you\'d think ...')
+
+    def test_getListEntry(self):
+        self.scraper.getEntry(1)
+        self.assertEqual(self.scraper.entries[1], firstEntry)
 
 
 if __name__ == '__main__':
