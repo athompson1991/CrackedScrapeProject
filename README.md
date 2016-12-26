@@ -27,3 +27,19 @@ myScraper.makeDataFrame()
 ```
 
 ## Article Text
+
+To get an article, simply pass the URL to the article scraper and run a few methods:
+
+```python
+from CrackedScrapeProject.scrape.ArticleScraper import ArticleScraper
+
+myScraper = ArticleScraper('http://www.cracked.com/blog/the-4-craziest-moments-in-history-christmas-specials/')
+myScraper.makeDataDictionary()
+myScraper.getArticle()
+myScraper.getSubheadings()
+myScraper.getIntro()
+myScraper.getEntry(1)
+myScraper.getEntry(2)
+myScraper.getEntry(3)
+myScraper.getEntry(4)
+```
